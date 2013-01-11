@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 /**
  * @author Patrick Herrmann
  */
-public final class Viewport {
+public final class Viewport implements Updatable {
 
     private static final double DEFAULT_BOUNDING_BOX = 100;
     

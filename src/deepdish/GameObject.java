@@ -3,12 +3,10 @@ package deepdish;
 /**
  * @author Patrick Herrmann
  */
-public abstract class GameObject implements Paintable, Comparable<GameObject> {
+public abstract class GameObject implements Paintable, Updatable, Comparable<GameObject> {
     
     private boolean destroyed = false;
     private int zIndex = 0;
-    
-    public abstract void update();
     
     public void destroy() {
         destroyed = true;

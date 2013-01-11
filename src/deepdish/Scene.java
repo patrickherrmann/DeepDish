@@ -8,7 +8,7 @@ import java.util.TreeSet;
 /**
  * @author Patrick Herrmann
  */
-public abstract class Scene implements Paintable {
+public abstract class Scene implements Paintable, Updatable {
     
     // Set of all game objects, synchronized and maintained by z-index for easy rendering
     protected final SortedSet<GameObject> gameObjects = Collections.synchronizedSortedSet(new TreeSet<GameObject>());
