@@ -1,19 +1,25 @@
 package deepdish;
 
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.List;
 
 /**
  * @author Patrick Herrmann
  */
-public abstract class Scene implements Paintable, Updatable {
+public final class Scene implements Paintable, Updatable {
     
     // Set of all game objects, synchronized and maintained by z-index for easy rendering
-    protected final SortedSet<GameObject> gameObjects = Collections.synchronizedSortedSet(new TreeSet<GameObject>());
+    private final List<GameObject> gameObjects = Collections.synchronizedList(new ArrayList<GameObject>());
     
-    public final void update() {
+    public void add(GameObject gameObject) {
+        gameObjects.add(gameObject);
+    }
+    
+    @Override
+    public void update() {
         synchronized (gameObjects) {
             Iterator<GameObject> iter = gameObjects.iterator();
             while (iter.hasNext()) {
@@ -28,17 +34,17 @@ public abstract class Scene implements Paintable, Updatable {
     }
 
     @Override
-    public final void paint(Viewport v) {
-        // Paint backdrop
-        paintBackground(v);
+    public void paint(Viewport v) {
+        // Clear canvas
+        v.getGraphics().setColor(Color.WHITE);
+        v.getGraphics().fillRect(0, 0, v.getImage().getWidth(null), v.getImage().getHeight(null));
         
         // Paint game objects
         synchronized (gameObjects) {
+            Collections.sort(gameObjects);
             for (GameObject gameObject : gameObjects) {
                 gameObject.paint(v);
             }
         }
     }
-    
-    public abstract void paintBackground(Viewport v);
 }

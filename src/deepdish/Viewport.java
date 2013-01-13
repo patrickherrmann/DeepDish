@@ -20,7 +20,6 @@ public final class Viewport implements Updatable {
 
     private Rectangle2D.Double rectangle;
     private double boundingBox = DEFAULT_BOUNDING_BOX;
-    private double magnification = 1.0;
     private Vector v = new Vector();
 
     public Viewport(int width, int height) {
@@ -44,11 +43,6 @@ public final class Viewport implements Updatable {
         return new Point2D.Double(rectangle.getCenterX(), rectangle.getCenterY());
     }
 
-    public void zoom(double magnification) {
-        this.magnification = magnification;
-        magnify();
-    }
-
     public boolean isInBounds(Point2D.Double point) {
         return point.x > rectangle.x - boundingBox &&
                 point.x < rectangle.x + rectangle.width + boundingBox &&
@@ -68,26 +62,10 @@ public final class Viewport implements Updatable {
         return new Point2D.Double(rectangle.x + xratio * rectangle.width, rectangle.y + yratio * rectangle.height);
     }
 
+    @Override
     public void update() {
-        rectangle.x += v.x / magnification;
-        rectangle.y += v.y / magnification;
-    }
-
-    private void magnify() {
-        double width = canvas.getWidth(null) / magnification;
-        double height = canvas.getHeight(null) / magnification;
-        rectangle.x =rectangle.getCenterX() - width / 2;
-        rectangle.y = rectangle.getCenterY() - height / 2;
-        rectangle.width = width;
-        rectangle.height = height;
-    }
-
-    public double getMagnification() {
-        return magnification;
-    }
-
-    public int getPixelLength(double length) {
-        return (int)(length * magnification);
+        rectangle.x += v.x;
+        rectangle.y += v.y;
     }
 
     public Image getImage() {
