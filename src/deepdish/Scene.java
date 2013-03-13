@@ -11,11 +11,13 @@ import java.util.List;
  */
 public final class Scene implements Paintable, Updatable {
     
-    // Set of all game objects, synchronized and maintained by z-index for easy rendering
-    private final List<GameObject> gameObjects = Collections.synchronizedList(new ArrayList<GameObject>());
+    // List of all game objects
+    private final List<GameObject> gameObjects = new ArrayList<GameObject>();
     
     public void add(GameObject gameObject) {
-        gameObjects.add(gameObject);
+        synchronized (gameObjects) {
+            gameObjects.add(gameObject);
+        }
     }
     
     @Override
@@ -41,6 +43,7 @@ public final class Scene implements Paintable, Updatable {
         
         // Paint game objects
         synchronized (gameObjects) {
+            // Sort by z-index
             Collections.sort(gameObjects);
             for (GameObject gameObject : gameObjects) {
                 gameObject.paint(v);

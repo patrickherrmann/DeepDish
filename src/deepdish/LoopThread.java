@@ -26,19 +26,17 @@ public abstract class LoopThread extends Thread {
     @Override
     public void run() {
         long period = 1000 / rate;
-        long before, diff;
+        long before, diff, sleepTime;
         while (running) {
             before = System.currentTimeMillis();
 
             performTask();
 
             diff = period - (System.currentTimeMillis() - before);
-            if (diff > 0) {
-                try {
-                    Thread.sleep(diff);
-                } catch (InterruptedException e) {
-                    System.out.println(e);
-                }
+            sleepTime = diff > 0 ? diff : 3;
+            try {
+                Thread.sleep(sleepTime);
+            } catch (InterruptedException ex) {
             }
         }
     }
