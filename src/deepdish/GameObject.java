@@ -6,7 +6,7 @@ package deepdish;
 public abstract class GameObject implements Paintable, Updatable, Comparable<GameObject> {
     
     private boolean destroyed = false;
-    private int zIndex = 0;
+    protected int zIndex = 0;
     
     public void destroy() {
         destroyed = true;
@@ -26,6 +26,6 @@ public abstract class GameObject implements Paintable, Updatable, Comparable<Gam
     
     @Override
     public int compareTo(GameObject other) {
-        return zIndex - other.zIndex;
+        return getZIndex() - other.getZIndex();
     }
 }

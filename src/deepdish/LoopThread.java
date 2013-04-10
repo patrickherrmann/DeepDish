@@ -5,15 +5,15 @@ package deepdish;
  */
 public abstract class LoopThread extends Thread {
     
-    private int rate;
+    private double rate;
     private volatile boolean running = false;
     
-    protected LoopThread(String name, int rate) {
+    protected LoopThread(String name, double rate) {
         super(name);
         this.rate = rate;
     }
     
-    public int getRate() {
+    public double getRate() {
         return rate;
     }
     
@@ -25,7 +25,7 @@ public abstract class LoopThread extends Thread {
     
     @Override
     public void run() {
-        long period = 1000 / rate;
+        long period = (long)(1000 / rate);
         long before, diff, sleepTime;
         while (running) {
             before = System.currentTimeMillis();
@@ -39,6 +39,10 @@ public abstract class LoopThread extends Thread {
             } catch (InterruptedException ex) {
             }
         }
+    }
+
+    public void terminate() {
+        running = false;
     }
     
     public abstract void performTask();
